@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D.Double;
 public abstract class Substance 
 {
 	private Rectangle2D collisionBox;
+	private int hp = Integer.MAX_VALUE;
 	
 	public Substance(Rectangle2D collisionBox) {
 		this.collisionBox = collisionBox;
@@ -19,6 +20,27 @@ public abstract class Substance
 	public Rectangle2D getCollisionBox()
 	{
 		return collisionBox;
+	}
+	
+	public void setHp(int hp)
+	{
+		this.hp = hp;
+	}
+	
+	/**
+	 * 将目标扣除相应血量，若目标死亡，则返回真;
+	 * @param damage
+	 * @return
+	 */
+	public boolean beHitToDeath(int damage)
+	{
+		this.hp -= damage;
+		return hp <= 0;
+	}
+	
+	public boolean alive()
+	{
+		return hp>0;
 	}
 	
 	/**

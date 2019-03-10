@@ -10,7 +10,6 @@ public class Wall extends Substance
 	public static final int Size = 30;
 	
 	private Kind kind; 
-	private int Hp;
 	
 	public Wall(Kind kind,Point center)
 	{
@@ -19,10 +18,10 @@ public class Wall extends Substance
 		switch(kind)
 		{
 		case solid:
-			Hp = Integer.MAX_VALUE;
+			this.setHp(Integer.MAX_VALUE);
 			break;
 		case fragile:
-			Hp = 3;
+			this.setHp(3);
 		}
 	}
 	

@@ -201,7 +201,10 @@ public class Controller
 			case "D":
 				tankA.setDirection(Direction.right);
 				break;
+			case "J":
+				tankA.shot();
 			default:
+				break;
 			}
 			//System.out.println("key " + key + " hit");
 		}

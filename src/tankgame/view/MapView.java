@@ -17,6 +17,7 @@ import javax.swing.KeyStroke;
 
 import tankgame.control.Controller;
 import tankgame.control.Controller.MapEditorMouseHandler;
+import tankgame.model.Bullet;
 import tankgame.model.Map;
 import tankgame.model.Tank;
 import tankgame.model.Wall;
@@ -44,6 +45,7 @@ public class MapView extends JComponent
 		drawWall(g);
 		drawBirthPoint(g);
 		drawTank(g);
+		drawBullet(g);
 		
 		showFrame(g);
 	}
@@ -61,12 +63,14 @@ public class MapView extends JComponent
 		imap.put(KeyStroke.getKeyStroke("A"), "A");
 		imap.put(KeyStroke.getKeyStroke("S"), "S");
 		imap.put(KeyStroke.getKeyStroke("D"), "D");
+		imap.put(KeyStroke.getKeyStroke("J"), "J");
 		
 		ActionMap amap = this.getActionMap();
 		amap.put("W", controller.new KeyStrokeListener("W"));
 		amap.put("A", controller.new KeyStrokeListener("A"));
 		amap.put("S", controller.new KeyStrokeListener("S"));
 		amap.put("D", controller.new KeyStrokeListener("D"));
+		amap.put("J", controller.new KeyStrokeListener("J"));
 	}
 	
 	private void drawWall(Graphics2D g)
@@ -102,6 +106,17 @@ public class MapView extends JComponent
 		for(Tank t : tanks)
 		{
 			TankView v = new TankView(t);
+			v.draw(g);
+		}
+	}
+	
+	private void drawBullet(Graphics2D g)
+	{
+		Set<Bullet> bullets = map.getBullets();
+		
+		for(Bullet b : bullets)
+		{
+			BulletView v = new BulletView(b);
 			v.draw(g);
 		}
 	}

@@ -17,6 +17,7 @@ public class Map
 {
 	private Set<Tank> tanks = new HashSet<>();
 	private Set<Wall> walls = new HashSet<>();
+	private Set<Bullet> bullets = new HashSet<>();
 	
 	private Point birthPointA = null;
 	
@@ -50,10 +51,16 @@ public class Map
 		this.tanks.add(tank);
 	}
 	
+	public void add(Bullet bullet)
+	{
+		this.bullets.add(bullet);
+	}
+	
 	public void remove(Substance s)
 	{
 		tanks.remove(s);
 		walls.remove(s);
+		bullets.remove(s);
 	}
 	
 	public Set<Wall> getWalls()
@@ -64,6 +71,11 @@ public class Map
 	public Set<Tank> getTanks()
 	{
 		return Collections.unmodifiableSet(this.tanks);
+	}
+	
+	public Set<Bullet> getBullets()
+	{
+		return Collections.unmodifiableSet(this.bullets);
 	}
 	
 	public void setBirthPointA(Point p)
@@ -101,7 +113,52 @@ public class Map
 			if(Substance.collide(path, w.getCollisionBox()))
 				return true;
 		}
+		for(Bullet b : bullets)
+		{
+			if(Objects.equals(b, sub))
+				continue;
+			if(Substance.collide(path, b.getCollisionBox()))
+				return true;
+		}
 		return false;
 	}
+	
+	public void explode(Rectangle2D rang,int damage)
+	{
+		for(Tank t : tanks)
+		{
+			if(Substance.collide(rang, t.getCollisionBox()))
+			{
+				if(t.beHitToDeath(damage))
+					tanks.remove(t);
+			}
+		}
+		for(Wall w : walls)
+		{
+			if(Substance.collide(rang, w.getCollisionBox()))
+			{
+				if(w.beHitToDeath(damage))
+					walls.remove(w);
+			}
+		}
+		for(Bullet b : bullets)
+		{
+			if(Substance.collide(rang, b.getCollisionBox()))
+			{
+				if(b.beHitToDeath(damage))
+					bullets.remove(b);
+			}
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
 

@@ -5,10 +5,10 @@ import java.awt.geom.Rectangle2D;
 public abstract class ActiveSubstance extends Substance 
 {
 
-	public enum Direction { none,up,left,down,right};
+	public enum Direction {up,left,down,right};
 	
 	private int speed = 0;
-	private Direction direction = Direction.none;
+	private Direction direction = Direction.up;
 	private Map map;
 	
 	public ActiveSubstance(Rectangle2D collisionBox,Map map) {
@@ -84,9 +84,6 @@ public abstract class ActiveSubstance extends Substance
 		case right:	//+x
 			newPos.setFrameFromDiagonal(x1+vspeed, y1, x2+vspeed, y2);
 			break;
-		case none:
-			newPos = oldPos;
-			break;
 		}
 		Rectangle2D.union(oldPos, newPos, path);
 		
@@ -95,6 +92,11 @@ public abstract class ActiveSubstance extends Substance
 
 		this.setCollisionBox(newPos);
 		return true;
+	}
+	
+	protected Map getMap()
+	{
+		return this.map;
 	}
 	
 }

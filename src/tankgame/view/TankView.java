@@ -30,7 +30,6 @@ public class TankView
 		
 		switch(tank.getDirection())
 		{
-		case none:
 		case up:
 			xs[0] = (x1+x2)/2;	xs[1] = x1;	xs[2] = x2;
 			ys[0] = y1;	ys[1] = y2;	ys[2] = y2;

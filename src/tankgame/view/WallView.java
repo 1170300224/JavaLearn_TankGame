@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import tankgame.model.Wall;
 
-public class WallView extends SubstanceView 
+public class WallView   
 {
 	private Wall wall;
 	

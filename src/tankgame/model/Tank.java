@@ -12,12 +12,11 @@ public class Tank extends ActiveSubstance implements Runnable
 	public static final int SIZE = 30;
 	
 	private Kind kind;
-	private int hp;
 	private int regularSpeed;
 	
-	public Tank(Point location,Kind kind,Map map)
+	public Tank(Point centre,Kind kind,Map map)
 	{
-		this(new Rectangle2D.Double(location.x-SIZE/2, location.y-SIZE/2, SIZE, SIZE),kind,map);
+		this(new Rectangle2D.Double(centre.x-SIZE/2, centre.y-SIZE/2, SIZE, SIZE),kind,map);
 	}
 	
 	private Tank(Rectangle2D collisionBox,Kind kind,Map map) {
@@ -26,9 +25,9 @@ public class Tank extends ActiveSubstance implements Runnable
 		switch(kind)
 		{
 		case player:
-			hp = 3;
-			this.setSpeed(4);
+			this.setHp(3);
 			this.regularSpeed = 4;
+			this.setSpeed(regularSpeed);
 			break;
 		}
 	}
@@ -47,11 +46,44 @@ public class Tank extends ActiveSubstance implements Runnable
 		this.setSpeed(0);	//每移动一次就将速度置到零
 		return r;
 	}
+	
+	public void shot()
+	{		
+		int x = (int)this.getCollisionBox().getCenterX();
+		int y = (int)this.getCollisionBox().getCenterY();
+		
+		int dis = 5;	//射出的子弹到坦克前端的距离
+		int append = dis + SIZE/2;
+		
+		switch(this.getDirection())
+		{
+		case up:
+			y -= append;
+			break;
+		case left:
+			x -= append;
+			break;
+		case down:
+			y += append;
+			break;
+		case right:
+			x += append;
+			break;
+		}
+		
+		Point centre = new Point(x,y);
+		
+		Bullet bullet = new Bullet(centre,this.getMap(),this.getDirection());
+		
+		this.getMap().add(bullet);
+		Thread bulletThread = new Thread(bullet);
+		bulletThread.start();
+	}
 
 	@Override
 	public void run() 
 	{
-		while(true)
+		while(this.alive())
 		{
 			try {
 				Thread.sleep(Controller.DELAY);
