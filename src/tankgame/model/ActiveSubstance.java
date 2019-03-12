@@ -1,9 +1,12 @@
 package tankgame.model;
 
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
-public abstract class ActiveSubstance extends Substance 
+public abstract class ActiveSubstance extends Substance implements Serializable
 {
+
+	private static final long serialVersionUID = -8414374454067945425L;
 
 	public enum Direction {up,left,down,right};
 	

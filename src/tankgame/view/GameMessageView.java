@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
+@SuppressWarnings("serial")
 public class GameMessageView extends JComponent
 {
 	public static final int WIDTH = 280;

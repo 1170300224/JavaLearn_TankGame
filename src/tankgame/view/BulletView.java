@@ -3,7 +3,6 @@ package tankgame.view;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 
 import tankgame.model.Bullet;
 

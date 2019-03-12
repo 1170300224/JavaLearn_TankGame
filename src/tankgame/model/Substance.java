@@ -1,10 +1,12 @@
 package tankgame.model;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
+import java.io.Serializable;
 
-public abstract class Substance 
+public abstract class Substance implements Serializable
 {
+
+	private static final long serialVersionUID = -4942897799029884870L;
 	private Rectangle2D collisionBox;
 	private int hp = Integer.MAX_VALUE;
 	

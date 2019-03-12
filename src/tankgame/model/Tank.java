@@ -2,11 +2,15 @@ package tankgame.model;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 import tankgame.control.Controller;
 
-public class Tank extends ActiveSubstance implements Runnable
+public class Tank extends ActiveSubstance implements Runnable,Serializable
 {
+
+	private static final long serialVersionUID = 5271885753729616528L;
+
 	public enum Kind{player,ai};
 	
 	public static final int SIZE = 30;

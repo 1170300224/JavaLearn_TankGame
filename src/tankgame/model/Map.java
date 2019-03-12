@@ -2,6 +2,7 @@ package tankgame.model;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,8 +14,10 @@ import java.util.Set;
  * @author s
  *
  */
-public class Map 
+public class Map implements Serializable
 {
+	private static final long serialVersionUID = -5014475051550494163L;
+	
 	private Set<Tank> tanks = new HashSet<>();
 	private Set<Wall> walls = new HashSet<>();
 	private Set<Bullet> bullets = new HashSet<>();
@@ -23,6 +26,24 @@ public class Map
 	
 	public Map()
 	{
+	}
+	
+	public void clear()
+	{
+		this.tanks.clear();
+		this.walls.clear();
+		this.bullets.clear();
+		this.birthPointA = null;
+	}
+	
+	public void load(Map newMap)
+	{
+		this.clear();
+		for(Wall w : newMap.walls)
+		{
+			this.add(w);
+		}
+		this.setBirthPointA(newMap.getBirthPointA());
 	}
 	
 	public Substance find(Point p)

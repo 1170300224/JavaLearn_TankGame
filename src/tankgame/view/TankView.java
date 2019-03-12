@@ -6,7 +6,6 @@ import java.awt.Polygon;
 import java.awt.geom.Rectangle2D;
 
 import tankgame.model.Tank;
-import tankgame.model.ActiveSubstance.Direction;
 
 public class TankView 
 {

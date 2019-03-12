@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -45,10 +45,22 @@ public class ControlPanel extends JPanel
 		JButton editorModeButton = new JButton("地图编辑");
 		editorModeButton.addActionListener(controller.new StatusChangeListener(Status.mapEdit));
 		
+		addButton(0,editorModeButton);
+		
+		JButton loadMapButton = new JButton("读取地图");
+		loadMapButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.loadMap();
+			}
+		});
+		
+		addButton(1,loadMapButton);
+		
 		JButton playingModeButton = new JButton("开始游戏");
 		playingModeButton.addActionListener(controller.new StatusChangeListener(Status.playing));
 		
-		addButton(0,editorModeButton,playingModeButton);
+		addButton(3,playingModeButton);
 		
 		this.repaint();
 	}
@@ -69,10 +81,19 @@ public class ControlPanel extends JPanel
 		
 		addButton(1,birthPointButton);
 		
+		JButton saveMapButton = new JButton("保存地图");
+		saveMapButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.saveMap();
+			}
+		});
+				
 		JButton confirmButton = new JButton("确认");
 		confirmButton.addActionListener(controller.new StatusChangeListener(Status.prepare));
 		
-		addButton(3,confirmButton);
+		addButton(3,saveMapButton,confirmButton);
 
 		this.repaint();
 	}

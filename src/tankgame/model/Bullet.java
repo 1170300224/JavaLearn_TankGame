@@ -2,11 +2,14 @@ package tankgame.model;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 import tankgame.control.Controller;
 
-public class Bullet extends ActiveSubstance implements Runnable
+public class Bullet extends ActiveSubstance implements Runnable,Serializable
 {
+
+	private static final long serialVersionUID = 3668213229460938551L;
 	public static final int SIZE = 6;
 	public static final int EXPLODE_SIZE = 8;
 	

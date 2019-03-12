@@ -2,9 +2,12 @@ package tankgame.model;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
-public class Wall extends Substance 
+public class Wall extends Substance implements Serializable
 {
+	private static final long serialVersionUID = 3492012379585260012L;
+
 	public enum Kind {solid, fragile};
 	
 	public static final int Size = 30;
