@@ -5,8 +5,11 @@ import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
+
+import tankgame.view.MapView;
 
 /**
  * 地图类是碰撞箱的集合
@@ -18,9 +21,9 @@ public class Map implements Serializable
 {
 	private static final long serialVersionUID = -5014475051550494163L;
 	
-	private Set<Tank> tanks = new HashSet<>();
-	private Set<Wall> walls = new HashSet<>();
-	private Set<Bullet> bullets = new HashSet<>();
+	private Set<Tank> tanks = Collections.synchronizedSet(new HashSet<>());
+	private Set<Wall> walls = Collections.synchronizedSet(new HashSet<>());
+	private Set<Bullet> bullets = Collections.synchronizedSet(new HashSet<>());
 	
 	private Point birthPointA = null;
 	
@@ -115,7 +118,7 @@ public class Map implements Serializable
 	 * @param path
 	 * @return	若会撞，则真
 	 */
-	public boolean collide(Substance sub,Rectangle2D path)
+	public synchronized boolean collide(Substance sub,Rectangle2D path)
 	{
 		assert sub != null;
 		assert path != null;
@@ -144,7 +147,7 @@ public class Map implements Serializable
 		return false;
 	}
 	
-	public void explode(Rectangle2D rang,int damage)
+	public synchronized void _explod_shame_useless(Rectangle2D rang,int damage)
 	{
 		for(Tank t : tanks)
 		{
@@ -170,6 +173,46 @@ public class Map implements Serializable
 					bullets.remove(b);
 			}
 		}
+	}
+	
+	public synchronized void explode(Rectangle2D rang,int damage)
+	{
+		Iterator<Tank> it = tanks.iterator();
+		while(it.hasNext())
+		{
+			Tank t = it.next();
+			if(Substance.collide(rang, t.getCollisionBox()))
+			{
+				if(t.beHitToDeath(damage))
+					it.remove();
+			}
+		}
+		Iterator<Wall> iw = walls.iterator();
+		while(iw.hasNext())
+		{
+			Wall w = iw.next();
+			if(Substance.collide(rang, w.getCollisionBox()))
+			{
+				if(w.beHitToDeath(damage))
+					iw.remove();
+			}
+		}
+		Iterator<Bullet> ib = bullets.iterator();
+		while(ib.hasNext())
+		{
+			Bullet b = ib.next();
+			if(Substance.collide(rang, b.getCollisionBox()))
+			{
+				if(b.beHitToDeath(damage))
+					ib.remove();
+			}
+		}
+	}
+	
+	public boolean inTheMap(Point p)
+	{
+		return 		p.x >= 0 && p.x <= MapView.WIDTH
+				&&	p.y >= 0 && p.y <= MapView.HEIGHT;
 	}
 }
 

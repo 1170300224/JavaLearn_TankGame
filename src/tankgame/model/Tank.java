@@ -39,6 +39,8 @@ public class Tank extends ActiveSubstance implements Runnable,Serializable
 	@Override
 	public void setDirection(Direction dir)
 	{
+		if(!this.alive())
+			return;
 		super.setDirection(dir);
 		this.setSpeed(this.regularSpeed);	//每设置一次方向就将速度置回正常
 	}
@@ -52,7 +54,9 @@ public class Tank extends ActiveSubstance implements Runnable,Serializable
 	}
 	
 	public void shot()
-	{		
+	{	
+		if(!this.alive())
+			return;
 		int x = (int)this.getCollisionBox().getCenterX();
 		int y = (int)this.getCollisionBox().getCenterY();
 		

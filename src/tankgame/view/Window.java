@@ -69,7 +69,7 @@ public class Window extends JFrame  implements Runnable
 	}
 	
 	@Override
-	public void run() {
+	public void run() {	//Ë¢ÐÂ´°¿Ú
 		while(true)
 		{
 			try {

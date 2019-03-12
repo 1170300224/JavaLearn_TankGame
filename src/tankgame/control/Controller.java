@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import javax.swing.AbstractAction;
@@ -136,6 +137,14 @@ public class Controller
 	private void playing()
 	{
 		try {
+		
+		if(!mapIsOk())
+		{
+			JOptionPane.showMessageDialog(null, "地图非法，请重新编辑");
+			this.statusChange(Status.prepare);
+			return;
+		}
+
 			
 		Thread.sleep(3*DELAY);
 		
@@ -175,6 +184,13 @@ public class Controller
 			controlPanel.playingMode();
 			playing();
 		}
+	}
+	
+	private boolean mapIsOk()
+	{
+		if(map.getBirthPointA() == null)
+			return false;
+		return true;
 	}
 	
 	/**

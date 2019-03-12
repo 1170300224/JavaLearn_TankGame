@@ -1,5 +1,6 @@
 package tankgame.model;
 
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
@@ -20,22 +21,22 @@ public abstract class ActiveSubstance extends Substance implements Serializable
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void setSpeed(int speed)
+	public synchronized void setSpeed(int speed)
 	{
 		this.speed = speed;
 	}
 	
-	public int getSpeed()
+	public synchronized int getSpeed()
 	{
 		return this.speed;
 	}
 	
-	public void setDirection(Direction dir)
+	public synchronized void setDirection(Direction dir)
 	{
 		this.direction = dir;
 	}
 	
-	public Direction getDirection()
+	public synchronized Direction getDirection()
 	{
 		return this.direction;
 	}
@@ -55,6 +56,7 @@ public abstract class ActiveSubstance extends Substance implements Serializable
 	
 	/**
 	 * 移动direction和vspeed所指示的位移。在可能发生碰撞时，不移动
+	 * 若出界，则清除之
 	 * @param vspeed 虚速度，在技术上与碰撞判定的实现有关
 	 * @return 若移动成功，则真；否则（路径上有其他实体），假
 	 */
@@ -73,7 +75,7 @@ public abstract class ActiveSubstance extends Substance implements Serializable
 		Rectangle2D newPos = new Rectangle2D.Double();
 		Rectangle2D path = new Rectangle2D.Double();
 		
-		switch(direction)
+		switch(this.getDirection())
 		{
 		case up:	//-y
 			newPos.setFrameFromDiagonal(x1, y1-vspeed, x2, y2-vspeed);
@@ -92,7 +94,13 @@ public abstract class ActiveSubstance extends Substance implements Serializable
 		
 		if(map.collide(this, path))
 			return false;
-
+		
+		if(!map.inTheMap(new Point((int)newPos.getCenterX(),(int)newPos.getCenterY())))	//出界，清除之
+		{
+			this.setHp(-1);
+			map.remove(this);
+		}
+		
 		this.setCollisionBox(newPos);
 		return true;
 	}

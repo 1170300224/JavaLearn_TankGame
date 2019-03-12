@@ -34,7 +34,7 @@ public abstract class Substance implements Serializable
 	 * @param damage
 	 * @return
 	 */
-	public boolean beHitToDeath(int damage)
+	public synchronized boolean beHitToDeath(int damage)
 	{
 		this.hp -= damage;
 		return hp <= 0;
